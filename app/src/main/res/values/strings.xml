@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Notes</string>
+    <string name="create_pw_tip">password length: 6~12</string>
+    <!-- \u0020 is space -->
+    <string name="create_pw_1">enter\u0020\u0020\u0020password:</string>
+    <string name="create_pw_repeate">repeat password:</string>
+    <string name="create_pw_show_pw">show password</string>
+    <string name="create_pw_btn">D O N E</string>
+    <string name="enter_pw_btn">E N T E R</string>
+
+    <string name="new_note_button_text">N E W</string>
+    <string name="complete_edit_button_text">D O N E</string>
+
+    <!-- some string used by java code, and  -->
+    <string name="note_id">id</string>
+    <string name="note_title">title</string>
+    <string name="note_content">content</string>
+</resources>

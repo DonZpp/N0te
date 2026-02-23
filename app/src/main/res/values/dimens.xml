@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="common_button_text_size">30sp</dimen>
+    <dimen name="overview_title_text_size">30sp</dimen>
+    <dimen name="overview_content_text_size">24sp</dimen>
+
+    <dimen name="create_pw_tip_text_size">18sp</dimen>
+</resources>
