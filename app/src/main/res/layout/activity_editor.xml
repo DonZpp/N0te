@@ -6,8 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".EditorActivity">
-    
+    tools:context=".EditorActivity"
+    android:fitsSystemWindows="true"
+    >
+
+
     <EditText
         android:id="@+id/et_title"
         android:layout_width="match_parent"
@@ -16,20 +19,24 @@
         android:padding="16dp"
         android:layout_margin="5dp"
         />
-    
+
+    <com.donz.n0te.FastScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
     <EditText
         android:id="@+id/et_content"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:hint="CONTENT"
         android:gravity="top"
         android:inputType="textMultiLine"
-        android:scrollbars="vertical"
         android:background="@null"
         android:padding="16dp"
         android:layout_margin="5dp"
+        android:lineSpacingMultiplier="1.2"
         />
+    </com.donz.n0te.FastScrollView>
 
     <Button
         android:id="@+id/btn_edit_complete"
@@ -38,6 +45,8 @@
         android:textSize="@dimen/common_button_text_size"
         android:layout_margin="10dp"
         android:background="@drawable/button_square"
-        android:text="@string/complete_edit_button_text"/>
+        android:text="@string/complete_edit_button_text"
+        />
+
 
 </LinearLayout>

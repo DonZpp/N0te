@@ -2,8 +2,12 @@ package com.donz.n0te;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Toast;
 import android.window.OnBackInvokedDispatcher;
 
@@ -15,7 +19,12 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+
+
+
 public class EditorActivity extends SecureActivity {
+
+    static boolean bChanged = false;
 
     private EditText etTitle = null;
     private EditText etContent = null;
@@ -31,13 +40,24 @@ public class EditorActivity extends SecureActivity {
         setContentView(R.layout.activity_editor);
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.editor_main), (v, insets) -> {
+            // 1. get height of system bar/ nav bar
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            // get height of keyboard
+            Insets ime = insets.getInsets(WindowInsetsCompat.Type.ime());
+
+            // get the max value of both two
+            int bottomPadding = Math.max(systemBars.bottom, ime.bottom);
+
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, bottomPadding);
+
             return insets;
         });
 
+        com.donz.n0te.EditorActivity.bChanged = false;
+
         etTitle = findViewById(R.id.et_title);
         etContent = findViewById(R.id.et_content);
+
 
         // handle intent, change activity according to intent of new or intent of modify.
         handleIntent();
@@ -46,6 +66,27 @@ public class EditorActivity extends SecureActivity {
         findViewById(R.id.btn_edit_complete).setOnClickListener(new onCompleteListener(this));
 
         getOnBackPressedDispatcher().addCallback(this, new onCompleteListener(this));
+
+        // monite the text change event
+        etContent.addTextChangedListener(new ContentChangeWatcher());
+        etTitle.addTextChangedListener(new ContentChangeWatcher());
+    }
+
+
+    private class ContentChangeWatcher implements TextWatcher{
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            EditorActivity.bChanged = true;
+        }
     }
 
 
@@ -79,8 +120,7 @@ public class EditorActivity extends SecureActivity {
             actvt = _editorActivity;
         }
 
-        @Override
-        public void onClick(View v){
+        private boolean Save(){
             // prepare data
             String strTitle = actvt.etTitle.getText().toString();
             String strContent = actvt.etContent.getText().toString();
@@ -110,13 +150,31 @@ public class EditorActivity extends SecureActivity {
             if (bSuccess)
             {
                 Toast.makeText(actvt, "成功", Toast.LENGTH_SHORT).show();
+            }
+            return bSuccess;
+        }
+
+        @Override
+        public void onClick(View v){
+            boolean bSaveSuccess = false;
+            if (EditorActivity.bChanged){
+                if (Save()) {
+                    // try save change, finish if successful.
+                    finish();
+                }
+            }
+            else {  // if there is no change, finish directly.
                 finish();
             }
         }
 
         @Override
         public void handleOnBackPressed() {
-            this.onClick(null);
+            if (EditorActivity.bChanged){
+                this.Save();
+            }
+
+            // finish whatever
             finish();
         }
     }
