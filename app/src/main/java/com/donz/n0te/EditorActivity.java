@@ -141,15 +141,15 @@ public class EditorActivity extends SecureActivity {
                 }
             }
             catch (Exception e){
-                Toast.makeText(actvt, "异常" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(actvt, "保存异常" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
             catch (Error err){
-                Toast.makeText(actvt, "出错" + err.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(actvt, "保存出错" + err.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
             if (bSuccess)
             {
-                Toast.makeText(actvt, "成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(actvt, "保存成功", Toast.LENGTH_SHORT).show();
             }
             return bSuccess;
         }
